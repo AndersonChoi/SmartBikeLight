@@ -29,24 +29,26 @@ void loop() {
   bright=800-analog_bright;
   if(bright<0)
     bright=0;
+    
+  if(bright>140)
+    bright=255;
+    
   Serial.print("bright:");
   Serial.println(bright);
 
-  
-  for(i=0;i<16;i++)
-  {
-    ns_stick.setBrightness(bright);   
-    ns_stick.setColor(i, 255,   255,   255); 
-  }   
-  ns_stick.show();
-
-  for(i=0;i<16;i++)
-  {
-    ns_stick2.setBrightness(bright);   
-    ns_stick2.setColor(i, 255,   255,   255); 
-  }   
-  ns_stick2.show();
-  
+  setBrightAndColor(&ns_stick,bright);
+  setBrightAndColor(&ns_stick2,bright);
   
   delay(t); 
+}
+
+void setBrightAndColor(NS_Rainbow *stick,int bright)
+{
+  int i=0;
+  for(i=0;i<16;i++)
+  {
+    stick->setBrightness(bright);   
+    stick->setColor(i, 255,   255,   255); 
+  }   
+  stick->show();
 }
